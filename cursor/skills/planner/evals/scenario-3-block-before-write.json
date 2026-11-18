@@ -1,0 +1,37 @@
+{
+  "scenario_id": "planner-3-block-before-write",
+  "description": "User asks the planner to create a plan, but required planning inputs are missing or architecture evidence conflicts.",
+  "why_this_matters": "Checks the failure path: the planner must stop with a concrete cannot-proceed response and must not create partial artifacts or solution-skeleton-spec markdown.",
+  "input": {
+    "user_prompt": "/planner Create an implementation plan for this repo.",
+    "files_present": [
+      ".cursor/skills/planner/SKILL.md",
+      "requirements/ECCS-999/functional.md",
+      "requirements/ECCS-999/handoff.json"
+    ],
+    "context": "The requirements package is incomplete and the user did not provide an architecture style. Repo evidence is either missing or conflicting."
+  },
+  "expected": {
+    "success": false,
+    "should_contain": [
+      "## Cannot proceed",
+      "assumptions.md",
+      "invariants.md",
+      "policies.md",
+      "quality.md",
+      "conflicts-and-ambiguities.md"
+    ],
+    "should_not_contain": [
+      "requirements/ECCS-999/plan/plan.md",
+      "requirements/ECCS-999/plan/handoff.json",
+      "solution-skeleton-spec.md",
+      "solution-skeleton-spec.canvas.tsx",
+      "SwitchMode"
+    ],
+    "coverage": [
+      "validation stop gate",
+      "no partial writes",
+      "missing-input reporting"
+    ]
+  }
+}

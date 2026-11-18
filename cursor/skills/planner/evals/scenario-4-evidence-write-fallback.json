@@ -1,0 +1,45 @@
+{
+  "scenario_id": "planner-4-evidence-write-fallback",
+  "description": "User asks the planner to create a plan from validated requirements, design-decisions.md is written successfully, and writing solution-skeleton-spec.md then fails.",
+  "why_this_matters": "Checks the evidence-first failure branch: the planner must keep written design-decisions.md as source of truth, surface the exact evidence-write error, avoid writing plan.md, and wait for user confirmation before any retry.",
+  "input": {
+    "user_prompt": "/planner @requirements/ECCS-789/ Create an implementation plan for this validated requirements package.",
+    "files_present": [
+      ".cursor/skills/planner/SKILL.md",
+      "requirements/ECCS-789/assumptions.md",
+      "requirements/ECCS-789/functional.md",
+      "requirements/ECCS-789/invariants.md",
+      "requirements/ECCS-789/policies.md",
+      "requirements/ECCS-789/quality.md",
+      "requirements/ECCS-789/conflicts-and-ambiguities.md",
+      "requirements/ECCS-789/handoff.json"
+    ],
+    "context": "The requirements handoff is READY_FOR_PLANNING, readiness gates pass, and writing `requirements/ECCS-789/plan/solution-skeleton-spec.md` fails with `EACCES: permission denied` after `design-decisions.md` is already written."
+  },
+  "expected": {
+    "success": false,
+    "should_contain": [
+      "requirements/ECCS-789/plan/design-decisions.md",
+      "EACCES: permission denied",
+      "requirements/ECCS-789/plan/solution-skeleton-spec.md",
+      "source of truth",
+      "retry",
+      "user confirms"
+    ],
+    "should_not_contain": [
+      "wrote `requirements/ECCS-789/plan/plan.md`",
+      "wrote `requirements/ECCS-789/plan/handoff.json`",
+      "overview.md",
+      "summary.md",
+      "fallback canvas",
+      "solution-skeleton-spec.canvas.tsx",
+      "retrying automatically"
+    ],
+    "coverage": [
+      "solution-skeleton-spec write failure reporting",
+      "decisions-first fallback contract",
+      "no plan.md before evidence and approval",
+      "retry only after confirmation"
+    ]
+  }
+}

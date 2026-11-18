@@ -1,0 +1,21 @@
+{
+  "ticketId": "<ticket-id>",
+  "requirementsPath": "requirements/<ticket-id>/",
+  "status": "READY_FOR_PLANNING",
+  "requiresHumanInput": false,
+  "blockingIssues": [],
+  "openQuestions": [],
+  "trackedRisks": [],
+  "topPriorityItems": [
+    {
+      "id": "REQ-001",
+      "priority": "critical",
+      "reason": "This requirement anchors the minimum accepted scope for planning."
+    }
+  ],
+  "minimumAcceptedScope": [
+    "REQ-001"
+  ],
+  "nextAction": "run_planner",
+  "plannerInputPath": "requirements/<ticket-id>/"
+}

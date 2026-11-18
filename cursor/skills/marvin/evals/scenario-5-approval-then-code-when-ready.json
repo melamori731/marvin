@@ -1,0 +1,55 @@
+{
+  "scenario_id": "marvin-5-approval-then-code-when-ready",
+  "description": "User explicitly approves existing review artifacts and the resulting plan handoff is READY_FOR_IMPLEMENTATION.",
+  "why_this_matters": "After a real approval, the pipeline writes the plan through the planner and continues into coding only when no acknowledgement is required.",
+  "input": {
+    "user_prompt": "/marvin Approve the solution skeleton spec for PROJ-200 and write the plan.",
+    "files_present": [
+      "requirements/PROJ-200/handoff.json",
+      "requirements/PROJ-200/plan/design-decisions.md",
+      "requirements/PROJ-200/plan/solution-skeleton-spec.md"
+    ],
+    "context": "Skeleton review is required. Analyst handoff is READY_FOR_PLANNING with requiresHumanInput false. Review artifacts exist. plan.md does not. The user message is an explicit write-the-plan approval. Intended plan status is READY_FOR_IMPLEMENTATION with requiresHumanAck false."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "planner Step 16",
+      "plan.md",
+      "integration-test-scenarios.md",
+      "coding-agent",
+      "READY_FOR_IMPLEMENTATION"
+    ],
+    "should_not_contain": [
+      "invented acknowledgement",
+      "skipped planner skill"
+    ],
+    "coverage": [
+      "explicit-approval",
+      "autonomous-coding-when-ready"
+    ]
+  },
+  "resume_after_plan_written": {
+    "user_prompt": "/marvin PROJ-200",
+    "files_present": [
+      "requirements/PROJ-200/handoff.json",
+      "requirements/PROJ-200/plan/design-decisions.md",
+      "requirements/PROJ-200/plan/solution-skeleton-spec.md",
+      "requirements/PROJ-200/plan/plan.md",
+      "requirements/PROJ-200/plan/handoff.json"
+    ],
+    "context": "Analyst handoff is still READY_FOR_PLANNING, requiresHumanInput false, nextAction run_planner. Plan handoff status is READY_FOR_IMPLEMENTATION, requiresHumanAck false, nextAction run_coding_agent, skeletonReviewRequired true, skeletonReviewApproved true. No completion report. This resume is not a new approval.",
+    "expected": {
+      "success": true,
+      "should_contain": [
+        "Phase 3",
+        "coding-agent",
+        "READY_FOR_IMPLEMENTATION"
+      ],
+      "should_not_contain": [
+        "Phase 1 human gate",
+        "plan.md will not be written"
+      ]
+    }
+  }
+}

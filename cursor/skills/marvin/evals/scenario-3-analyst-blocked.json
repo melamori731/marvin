@@ -1,0 +1,34 @@
+{
+  "scenario_id": "marvin-3-analyst-blocked",
+  "description": "Requirement handoff is BLOCKED with requiresHumanInput true.",
+  "why_this_matters": "A blocked analyst result needs human resolution and must not start the planner.",
+  "input": {
+    "user_prompt": "/marvin Continue PROJ-404 through implementation.",
+    "files_present": [
+      "requirements/PROJ-404/handoff.json",
+      "requirements/PROJ-404/conflicts-and-ambiguities.md"
+    ],
+    "context": "handoff.json status is BLOCKED, requiresHumanInput is true, blockingIssues lists an unresolved data-owner contradiction, nextAction is run_planner."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "BLOCKED",
+      "requiresHumanInput",
+      "human",
+      "human-pause",
+      "do not start the planner"
+    ],
+    "should_not_contain": [
+      "design-decisions.md written",
+      "READY_FOR_IMPLEMENTATION",
+      "AskQuestion",
+      "assumed answer"
+    ],
+    "coverage": [
+      "analyst-resolution",
+      "blocked-handoff",
+      "channel-agnostic-pause"
+    ]
+  }
+}

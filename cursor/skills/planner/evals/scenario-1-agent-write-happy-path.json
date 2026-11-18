@@ -1,0 +1,48 @@
+{
+  "scenario_id": "planner-1-evidence-first-happy-path",
+  "description": "User asks the planner to build a plan from validated requirements with an explicit architecture style.",
+  "why_this_matters": "Checks the greenfield review path: validate inputs, write design-decisions and the solution skeleton spec, publish that spec with a GitHub link, then stop for explicit approval before writing plan.md.",
+  "input": {
+    "user_prompt": "/planner @requirements/ECCS-123/ Create an implementation plan. Architecture style: layered modules with adapters at the repo edge.",
+    "files_present": [
+      ".cursor/skills/planner/SKILL.md",
+      "requirements/ECCS-123/assumptions.md",
+      "requirements/ECCS-123/functional.md",
+      "requirements/ECCS-123/invariants.md",
+      "requirements/ECCS-123/policies.md",
+      "requirements/ECCS-123/quality.md",
+      "requirements/ECCS-123/conflicts-and-ambiguities.md",
+      "requirements/ECCS-123/handoff.json"
+    ],
+    "context": "Greenfield: no existing implementation. The requirements handoff is READY_FOR_PLANNING and the architecture style is explicit in the user prompt. This is the first planner turn. Skeleton review is required. The user has not approved writing plan.md. GitHub remote origin is available."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "requirements/ECCS-123/plan/design-decisions.md",
+      "requirements/ECCS-123/plan/solution-skeleton-spec.md",
+      "requirements/ECCS-123/plan/handoff.json",
+      "skeletonReviewRequired",
+      "await_skeleton_approval",
+      "approve",
+      "github.com"
+    ],
+    "should_not_contain": [
+      "wrote `requirements/ECCS-123/plan/plan.md`",
+      "wrote `requirements/ECCS-123/plan/integration-test-scenarios.md`",
+      "nextAction\": \"run_coding_agent\"",
+      "skeletonReviewApproved\": true",
+      "coding-agent can start",
+      "SwitchMode",
+      "Plan mode",
+      "tell me if you want me to save",
+      "solution-skeleton-spec.canvas.tsx"
+    ],
+    "coverage": [
+      "evidence-and-decisions first",
+      "stop for plan approval",
+      "markdown solution-skeleton-spec delivery",
+      "github link on skeleton review"
+    ]
+  }
+}

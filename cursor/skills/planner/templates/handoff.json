@@ -1,0 +1,28 @@
+{
+  "ticketId": "<ticket-id>",
+  "requirementsPath": "requirements/<ticket-id>/",
+  "planPath": "requirements/<ticket-id>/plan/",
+  "designDecisionsPath": "requirements/<ticket-id>/plan/design-decisions.md",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "requiresHumanAck": false,
+  "pauseReason": null,
+  "designRisks": [],
+  "skeletonReviewRequired": false,
+  "skeletonReviewApproved": null,
+  "solutionSkeletonSpecUrl": null,
+  "topPriorityItems": [
+    {
+      "id": "REQ-001",
+      "priority": "critical",
+      "reason": "This requirement anchors the minimum accepted scope for implementation."
+    }
+  ],
+  "minimumAcceptedScope": [
+    "REQ-001"
+  ],
+  "nextAction": "run_coding_agent",
+  "codingAgentInstruction": "Build the implementation described in requirements/<ticket-id>/plan/plan.md and governed by requirements/<ticket-id>/plan/design-decisions.md. Go through the plan step by step, apply each step's acceptance criteria and Definition of Done before moving on, stop rather than silently deviating from an active DD-NNN decision, and apply the Final acceptance and Coverage sign-off before considering the work complete.",
+  "humanAcknowledgement": null,
+  "implementationStatus": null,
+  "completionReportPath": null
+}

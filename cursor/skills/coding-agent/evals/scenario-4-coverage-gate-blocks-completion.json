@@ -1,0 +1,37 @@
+{
+  "scenario_id": "coding-agent-4-coverage-gate-blocks-completion",
+  "description": "Implementation and suite execution look done, but at least one input requirement has no respective test, so the coding agent must not write a completion report.",
+  "why_this_matters": "The completion report is gated on requirement-to-test coverage, not on a narrative claim that the work is done.",
+  "input": {
+    "user_prompt": "Build requirements/ECCS-12837/plan/plan.md\nGo through it step by step and apply each step acceptance criteria in the agent loop.",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      ".cursor/skills/coding-agent/scripts/requirement-test-coverage-gate.py",
+      "requirements/ECCS-12837/functional.md",
+      "requirements/ECCS-12837/plan/plan.md",
+      "requirements/ECCS-12837/plan/handoff.json",
+      "requirements/ECCS-12837/plan/design-decisions.md",
+      "requirements/ECCS-12837/plan/integration-test-scenarios.md"
+    ],
+    "context": "handoff.json is READY_FOR_IMPLEMENTATION. functional.md defines REQ-001 and REQ-002. After the planned steps, tests cover REQ-001 only. The coverage gate JSON has passed false and uncovered includes REQ-002."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "requirement-test-coverage-gate.py",
+      "Gate 3B",
+      "REQ-002",
+      "uncovered",
+      "STOP"
+    ],
+    "should_not_contain": [
+      "completion-report.md written",
+      "implementationStatus COMPLETE",
+      "coverage from memory"
+    ],
+    "coverage": [
+      "requirement-test-coverage-gate",
+      "no-completion-without-coverage"
+    ]
+  }
+}

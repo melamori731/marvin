@@ -1,0 +1,37 @@
+{
+  "scenario_id": "coding-agent-5-contract-tests-required",
+  "description": "A contract or schema is part of the inputs, so completion requires contract tests wired to the input REQ IDs.",
+  "why_this_matters": "A provided API or schema contract is not done when only ordinary unit or integration tests exist.",
+  "input": {
+    "user_prompt": "Build requirements/ECCS-12837/plan/plan.md\nGo through it step by step and apply each step acceptance criteria in the agent loop.",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      ".cursor/skills/coding-agent/scripts/requirement-test-coverage-gate.py",
+      "requirements/ECCS-12837/functional.md",
+      "requirements/ECCS-12837/plan/plan.md",
+      "requirements/ECCS-12837/plan/handoff.json",
+      "requirements/ECCS-12837/plan/design-decisions.md",
+      "docs/openapi.yaml"
+    ],
+    "context": "plan.md lists docs/openapi.yaml as a provided contract. Unit and integration tests exist for the REQ IDs, but no *Contract* test references openapi.yaml or cites those REQ IDs. The coverage gate reports contractFailures."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "requirement-test-coverage-gate.py",
+      "contract",
+      "REQ-",
+      "Gate 3B",
+      "STOP"
+    ],
+    "should_not_contain": [
+      "skipped contract tests",
+      "integration tests are enough",
+      "completion-report.md written"
+    ],
+    "coverage": [
+      "provided-contract",
+      "contract-tests-wired-to-requirements"
+    ]
+  }
+}

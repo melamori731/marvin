@@ -1,0 +1,42 @@
+{
+  "scenario_id": "planner-5-plan-write-after-approval",
+  "description": "Review artifacts already exist, and the user explicitly approves writing the plan.",
+  "why_this_matters": "Checks the second delivery stage: after explicit approval, write integration-test-scenarios.md, plan.md, and handoff.json without inventing new design decisions.",
+  "input": {
+    "user_prompt": "Approve the solution skeleton spec and design decisions. Write the plan.",
+    "files_present": [
+      ".cursor/skills/planner/SKILL.md",
+      "requirements/ECCS-123/assumptions.md",
+      "requirements/ECCS-123/functional.md",
+      "requirements/ECCS-123/invariants.md",
+      "requirements/ECCS-123/policies.md",
+      "requirements/ECCS-123/quality.md",
+      "requirements/ECCS-123/conflicts-and-ambiguities.md",
+      "requirements/ECCS-123/handoff.json",
+      "requirements/ECCS-123/plan/design-decisions.md",
+      "requirements/ECCS-123/plan/solution-skeleton-spec.md"
+    ],
+    "context": "Greenfield. Skeleton review was required and the review artifacts already exist. The user now gives an explicit approve / write-the-plan instruction. Intended readiness is READY_FOR_IMPLEMENTATION."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "requirements/ECCS-123/plan/integration-test-scenarios.md",
+      "requirements/ECCS-123/plan/plan.md",
+      "requirements/ECCS-123/plan/handoff.json",
+      "READY_FOR_IMPLEMENTATION"
+    ],
+    "should_not_contain": [
+      "SwitchMode",
+      "Plan mode",
+      "tell me if you want me to save",
+      "waiting for approval",
+      "solution-skeleton-spec.canvas.tsx"
+    ],
+    "coverage": [
+      "plan.md only after approval",
+      "handoff written with plan package",
+      "no new evidence-only decisions"
+    ]
+  }
+}

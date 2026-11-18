@@ -1,0 +1,48 @@
+{
+  "scenario_id": "coding-agent-1-ready-plan-happy-path",
+  "description": "User asks the coding agent to build from a saved planner package that is ready for implementation.",
+    "why_this_matters": "Verifies the main path: validate handoff, execute plan steps in order, apply each step acceptance criteria, run final acceptance, pass the requirement-test coverage gate, and write completion artifacts without requiring an external review loop.",
+  "input": {
+    "user_prompt": "Build requirements/ECCS-12837/plan/plan.md\nGo through it step by step and apply each step acceptance criteria in the agent loop.",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      "requirements/ECCS-12837/plan/plan.md",
+      "requirements/ECCS-12837/plan/handoff.json",
+      "requirements/ECCS-12837/plan/design-decisions.md",
+      "requirements/ECCS-12837/plan/integration-test-scenarios.md"
+    ],
+    "context": "handoff.json has status READY_FOR_IMPLEMENTATION, requiresHumanAck false, nextAction run_coding_agent, skeletonReviewRequired false, skeletonReviewApproved null, solutionSkeletonSpecUrl null, and null execution-result fields."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "references/workflow.md",
+      "Step 0",
+      "acceptance criteria",
+      "Final acceptance",
+      "requirement-test-coverage-gate.py",
+      "verification-logs",
+      "command:",
+      "cwd:",
+      "exit_code:",
+      "[verification-logs/",
+      "requirement-test-coverage.json",
+      "completion-report.md",
+      "implementationStatus"
+    ],
+    "should_not_contain": [
+      "Skip Step 0",
+      "silently deviating",
+      "Build from plan.md alone",
+      "wrote completion-report.md before the coverage gate",
+      "pasted command output into completion-report.md"
+    ],
+    "coverage": [
+      "ready-handoff",
+      "ordered-step-execution",
+      "final-acceptance",
+      "requirement-test-coverage-gate",
+      "completion-artifacts"
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "scenario_id": "marvin-6-story-branch",
+  "description": "Agent-mode Marvin is about to write analyst outputs for a Jira story.",
+  "why_this_matters": "The branch is the ticket key plus a slug of the user story. Marvin creates that branch, switches onto it, and runs the rest of the turn there. The pattern example is not a branch name. Creating the ref without switching, or switching back, leaves Marvin on the previous branch.",
+  "input": {
+    "user_prompt": "/marvin Ticket: ECCS-4521. User story: Implement this or that. Sources: @spec.md. Carry this through implementation.",
+    "files_present": [
+      ".cursor/skills/marvin/SKILL.md",
+      ".cursor/skills/marvin/scripts/story-branch.py"
+    ],
+    "context": "Agent mode. The ticket key is ECCS-4521. The user story title is Implement this or that. No requirements files exist yet. The current branch is main and the working tree has unrelated uncommitted files. story-branch.py prints ECCS-4521-implement-this-or-that. That local branch does not exist yet. After creation, Marvin must be on ECCS-4521-implement-this-or-that for the analyst and any later stage in the turn. Remaining on main, creating the branch with git branch alone, or switching back to main, fails the scenario."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "ECCS-4521-implement-this-or-that",
+      "git switch -c",
+      "requirement-analyst",
+      "current branch"
+    ],
+    "should_not_contain": [
+      "created ECCS-XXXX-emplement-tis-or-that",
+      "discarded uncommitted",
+      "git stash",
+      "switched back",
+      "still on main",
+      "git branch ECCS-4521-implement-this-or-that"
+    ],
+    "coverage": [
+      "story-branch",
+      "preserve-uncommitted-work",
+      "stay-on-story-branch"
+    ]
+  },
+  "missing_title": {
+    "user_prompt": "/marvin Ticket: ECCS-4521. Sources: @spec.md.",
+    "context": "Agent mode. No user story title was supplied and no Jira summary is available.",
+    "expected": {
+      "success": true,
+      "should_contain": [
+        "user story title",
+        "STOP"
+      ],
+      "should_not_contain": [
+        "ECCS-XXXX-emplement-tis-or-that",
+        "git switch -c"
+      ]
+    }
+  }
+}

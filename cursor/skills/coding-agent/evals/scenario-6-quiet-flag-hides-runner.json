@@ -1,0 +1,33 @@
+{
+  "scenario_id": "coding-agent-6-quiet-flag-hides-runner",
+  "description": "A test command captured with a quiet or silent flag, or with only framework noise and no runner stream, is not valid Gate 2B/3A/4A evidence even when exit_code is 0.",
+  "why_this_matters": "Quiet flags hide the runner stream. Anti-pattern teaching text may contain `mvn -q`; this scenario checks the captured `command:` line and log body instead of banning that substring from the whole transcript.",
+  "input": {
+    "user_prompt": "Build requirements/ECCS-12837/plan/plan.md\nGo through it step by step and apply each step acceptance criteria in the agent loop.",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      "requirements/ECCS-12837/plan/plan.md",
+      "requirements/ECCS-12837/plan/handoff.json",
+      "requirements/ECCS-12837/plan/design-decisions.md",
+      "requirements/ECCS-12837/plan/integration-test-scenarios.md"
+    ],
+    "context": "A step or final test log under verification-logs/ starts with command: and exit_code: 0. The command line includes -q, --quiet, or --silent, and the body is only framework noise: no suite or test file name and no pass/fail/skip counts."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "verification-logs",
+      "command:",
+      "exit_code:",
+      "runner stream"
+    ],
+    "should_not_contain": [
+      "implementationStatus COMPLETE with quiet-flag test log",
+      "completion-report.md written from quiet-flag logs"
+    ],
+    "coverage": [
+      "verification-logs",
+      "no-quiet-flag-test-evidence"
+    ]
+  }
+}

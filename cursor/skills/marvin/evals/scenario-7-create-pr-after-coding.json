@@ -1,0 +1,46 @@
+{
+  "scenario_id": "marvin-7-create-pr-after-coding",
+  "description": "Coding-agent completion artifacts exist and the story branch has no open PR.",
+  "why_this_matters": "Pipeline completion must open a PR for the story branch when one does not already exist. Skip only when a PR already exists.",
+  "input": {
+    "user_prompt": "/marvin PROJ-900 finished coding. Continue the pipeline.",
+    "files_present": [
+      "requirements/PROJ-900/plan/plan.md",
+      "requirements/PROJ-900/plan/handoff.json",
+      "requirements/PROJ-900/plan/completion-report.md"
+    ],
+    "context": "Agent mode on story branch PROJ-900-implement-widget. Plan handoff implementationStatus records completion. Coding-agent Gate 4A would pass. gh pr view finds no open PR for this branch. create-pr skill is available."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "create-pr",
+      "Step 9",
+      "completion-report.md",
+      "PROJ-900"
+    ],
+    "should_not_contain": [
+      "skipped create-pr",
+      "pipeline complete without PR check"
+    ],
+    "coverage": [
+      "create-pr-after-coding",
+      "skip-only-when-pr-exists",
+      "pr-title-starts-with-ticket-id"
+    ]
+  },
+  "already_has_pr": {
+    "context": "gh pr view already returns an open PR URL for the story branch.",
+    "expected": {
+      "success": true,
+      "should_contain": [
+        "PR already",
+        "completion-report.md"
+      ],
+      "should_not_contain": [
+        "gh pr create",
+        "opened a second PR"
+      ]
+    }
+  }
+}

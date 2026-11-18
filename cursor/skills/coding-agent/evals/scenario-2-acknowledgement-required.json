@@ -1,0 +1,36 @@
+{
+  "scenario_id": "coding-agent-2-acknowledgement-required",
+  "description": "Planner marked the plan READY_FOR_IMPLEMENTATION_WITH_ACK, so the coding agent must pause before any code edits.",
+  "why_this_matters": "Tests the acknowledgement gate and ensures a user build request is not treated as implied consent.",
+  "input": {
+    "user_prompt": "Build requirements/ECCS-12837/plan/plan.md\nGo through it step by step and apply each step acceptance criteria in the agent loop.",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      "requirements/ECCS-12837/plan/plan.md",
+      "requirements/ECCS-12837/plan/handoff.json",
+      "requirements/ECCS-12837/plan/design-decisions.md"
+    ],
+    "context": "handoff.json has status READY_FOR_IMPLEMENTATION_WITH_ACK, requiresHumanAck true, a non-empty pauseReason, at least one designRisks entry, humanAcknowledgement null, skeletonReviewRequired false, skeletonReviewApproved null, and solutionSkeletonSpecUrl null."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "READY_FOR_IMPLEMENTATION_WITH_ACK",
+      "humanAcknowledgement",
+      "proceed_as_is",
+      "risk_resolved",
+      "designRisks",
+      "before any code edits"
+    ],
+    "should_not_contain": [
+      "start coding immediately",
+      "implied consent",
+      "final sign-off",
+      "approve the solution skeleton spec"
+    ],
+    "coverage": [
+      "acknowledgement-pause",
+      "handoff-validation"
+    ]
+  }
+}

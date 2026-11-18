@@ -1,0 +1,36 @@
+{
+  "scenario_id": "marvin-1-stop-for-planning-approval",
+  "description": "User starts the pipeline with sources and an explicit architecture style. Analyst can finish ready, planner can write review artifacts, and the run must stop before plan.md.",
+  "why_this_matters": "A greenfield pipeline request must not count as approval of the solution skeleton spec. The stop publishes both review files and pastes separate GitHub blob links for solution-skeleton-spec.md and design-decisions.md in chat.",
+  "input": {
+    "user_prompt": "/marvin Ticket PROJ-123. Sources: @spec.md. Architecture style: layered modules with adapters at the repo edge. Carry this through implementation.",
+    "files_present": [
+      ".cursor/skills/marvin/SKILL.md",
+      ".cursor/skills/requirement-analyst/SKILL.md",
+      ".cursor/skills/planner/SKILL.md"
+    ],
+    "context": "Greenfield. Analyst can resolve the spec without critical questions. Planner validation passes. This is the first turn. Skeleton review is required. The user has not said approve, proceed, or write the plan. GitHub remote origin is available."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "design-decisions.md",
+      "solution-skeleton-spec.md",
+      "github.com",
+      "/plan/solution-skeleton-spec.md",
+      "/plan/design-decisions.md",
+      "approve",
+      "steering",
+      "plan.md will not be written"
+    ],
+    "should_not_contain": [
+      "plan.md written",
+      "run_coding_agent started",
+      "product code edited"
+    ],
+    "coverage": [
+      "sequential-analyst-then-planner",
+      "solution-skeleton-spec-approval"
+    ]
+  }
+}

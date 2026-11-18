@@ -1,0 +1,5 @@
+{
+  "decision": "proceed_as_is",
+  "acknowledgedAt": "2026-08-27T17:30:00Z",
+  "rationale": "User explicitly accepted the carried design risk before implementation."
+}

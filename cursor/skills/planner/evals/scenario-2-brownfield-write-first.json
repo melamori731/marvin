@@ -1,0 +1,42 @@
+{
+  "scenario_id": "planner-2-brownfield-evidence-first",
+  "description": "User asks the planner to extend an existing module and preserve the repository's current architecture and naming style.",
+  "why_this_matters": "Checks that brownfield planning uses the architecture style already applied in the repo, writes the skeleton and the plan package in the same turn, and does not ask for skeleton approval.",
+  "input": {
+    "user_prompt": "/planner @requirements/ECCS-456/ @src/orders/ Plan this change using the existing repo architecture and names.",
+    "files_present": [
+      ".cursor/skills/planner/SKILL.md",
+      "requirements/ECCS-456/assumptions.md",
+      "requirements/ECCS-456/functional.md",
+      "requirements/ECCS-456/invariants.md",
+      "requirements/ECCS-456/policies.md",
+      "requirements/ECCS-456/quality.md",
+      "requirements/ECCS-456/conflicts-and-ambiguities.md",
+      "requirements/ECCS-456/handoff.json",
+      "src/orders/"
+    ],
+    "context": "Brownfield. The repo already applies a stable module layout and naming pattern near `src/orders/`. The planner must use that applied architecture style and must not ask the human to choose a style. Marvin was not prompted to review the skeleton. Intended readiness is READY_FOR_IMPLEMENTATION. This is the first planner turn."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "applied",
+      "requirements/ECCS-456/plan/design-decisions.md",
+      "requirements/ECCS-456/plan/solution-skeleton-spec.md",
+      "requirements/ECCS-456/plan/plan.md"
+    ],
+    "should_not_contain": [
+      "approve the solution skeleton spec",
+      "which architecture",
+      "SwitchMode",
+      "Clean Architecture",
+      "default architecture",
+      "solution-skeleton-spec.canvas.tsx"
+    ],
+    "coverage": [
+      "brownfield applied architecture",
+      "plan package without skeleton approval",
+      "no mode-switch ceremony"
+    ]
+  }
+}

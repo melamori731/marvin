@@ -1,0 +1,9 @@
+{
+  "status": "COMPLETE",
+  "updatedAt": "2026-08-27T18:05:00Z",
+  "summary": "Implemented all planned steps and passed final acceptance.",
+  "latestTouchedPaths": [
+    "src/example.ts",
+    "test/example.test.ts"
+  ]
+}

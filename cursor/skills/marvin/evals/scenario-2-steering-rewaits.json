@@ -1,0 +1,31 @@
+{
+  "scenario_id": "marvin-2-steering-rewaits",
+  "description": "Review artifacts exist and the user requests a design change instead of approving the plan.",
+  "why_this_matters": "Steering at a required solution-skeleton-spec review must update the review artifacts, publish again, and stop again.",
+  "input": {
+    "user_prompt": "/marvin PROJ-123. Change the persistence decision to reuse the existing repository port. Then continue the pipeline.",
+    "files_present": [
+      "requirements/PROJ-123/plan/design-decisions.md",
+      "requirements/PROJ-123/plan/solution-skeleton-spec.md"
+    ],
+    "context": "Skeleton review is required. plan.md does not exist. The user message asks for a change and also says continue. The change is steering, not approval."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "design-decisions.md",
+      "solution-skeleton-spec.md",
+      "STOP",
+      "steering",
+      "approve"
+    ],
+    "should_not_contain": [
+      "plan.md written",
+      "coding-agent started"
+    ],
+    "coverage": [
+      "steering",
+      "approval-gate"
+    ]
+  }
+}

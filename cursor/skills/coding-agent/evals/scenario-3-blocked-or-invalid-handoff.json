@@ -1,0 +1,32 @@
+{
+  "scenario_id": "coding-agent-3-blocked-or-invalid-handoff",
+  "description": "The saved plan package is not executable because the handoff is blocked or inconsistent.",
+  "why_this_matters": "Tests the stop conditions for missing artifacts, blocked readiness, and mismatched handoff fields.",
+  "input": {
+    "user_prompt": "Build planning/ECCS-12837/plan.md",
+    "files_present": [
+      ".cursor/skills/coding-agent/SKILL.md",
+      "planning/ECCS-12837/plan.md",
+      "planning/ECCS-12837/handoff.json"
+    ],
+    "context": "planning/ECCS-12837/design-decisions.md is missing or handoff.json has status READY_FOR_IMPLEMENTATION but requiresHumanAck true."
+  },
+  "expected": {
+    "success": true,
+    "should_contain": [
+      "input inventory",
+      "missing path",
+      "Any inconsistency between readiness fields",
+      "STOP"
+    ],
+    "should_not_contain": [
+      "edit product code",
+      "completion-report.md"
+    ],
+    "coverage": [
+      "missing-artifacts",
+      "blocked-handoff",
+      "readiness-mismatch"
+    ]
+  }
+}
